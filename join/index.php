@@ -43,36 +43,38 @@ $posts = $PDO->query('SELECT * FROM posts');
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>PHP掲示板</title>
+	<title>PHPひとこと掲示板</title>
 
 	<link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
 	<div id="content">
+		<?php if ($error['author_name'] !== 'blank') : ?>
+			<p class="succes"><?php print(htmlspecialchars($_SESSION['succes_message'], ENT_QUOTES)); ?></p>
+		<?php endif; ?>
+		<p class="title">PHPひとこと掲示板</p>
+		<hr>
 		<div class="form-block">
-			<?php if ($error['author_name'] !== 'blank') : ?>
-				<?php print(htmlspecialchars($_SESSION['succes_message'], ENT_QUOTES)); ?>
-			<?php endif; ?>
-			<h1>PHP掲示板</h1>
-			<hr>
 			<form action="" method="post" enctype="multipart/form-data">
 				<dl>
 					<dd>
-						<input placeholder="投稿者氏名:(必須)" type="text" name="author_name" size="35" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
+						<p class="sub-title">投稿者ニックネーム:(必須)</p>
+						<input class="input-name" type="text" name="author_name" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
 						<?php if ($error['author_name'] === 'blank') : ?>
 							<p class="error">*投稿者氏名を入力してください</p>
 						<?php endif; ?>
 					</dd>
 					<dd>
 						<!-- 以下改行してはいけない -->
-						<textarea placeholder="投稿内容:(必須)" type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
+						<p class="sub-title">投稿内容:(必須)</p>
+						<textarea type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
 						<?php if ($error['message'] === 'blank') : ?>
 							<p class="error">*投稿内容を入力してください</p>
 						<?php endif; ?>
 					</dd>
 				</dl>
-				<div><input type="submit" value="入力内容を確認する" /></div>
+				<div><input class="submit-button" type="submit" value="入力内容を確認する" /></div>
 			</form>
 		</div>
 	</div>
