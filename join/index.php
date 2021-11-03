@@ -11,8 +11,6 @@ if ($_POST['message'] === '') {
 
 // 投稿をデータベースへ保存する
 if ($_POST['author_name'] && $_POST['message']) {
-	// 以下がないとリロード時に$_POSTの内容が残り、再度投稿してしまう
-	header("Location:{$_SERVER['PHP_SELF']}");
 	echo 'yobareta';
 
 	// 空白除去
@@ -26,7 +24,9 @@ if ($_POST['author_name'] && $_POST['message']) {
 	$stmt->bindValue(':message', $message, PDO::PARAM_STR);
 	$stmt->execute(); //挿入する値が入った変数をexecuteにセットしてSQLを実行
 	// 成功したら投稿が完了しましたを表示したい
-	$_POST = [];    // $_POST = []; $_POST初期化
+
+	// 以下がないとリロード時に$_POSTの内容が残り、再度投稿してしまう
+	header("Location: index.php");
 }
 
 // 投稿をデータベースから取得する
@@ -54,14 +54,14 @@ $posts = $PDO->query('SELECT * FROM posts');
 			<form action="" method="post" enctype="multipart/form-data">
 				<dl>
 					<dd>
-						<input placeholder="投稿者氏名:必須" type="text" name="author_name" size="35" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
+						<input placeholder="投稿者氏名:(必須)" type="text" name="author_name" size="35" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
 						<?php if ($error['author_name'] === 'blank') : ?>
 							<p class="error">*投稿者氏名を入力してください</p>
 						<?php endif; ?>
 					</dd>
 					<dd>
 						<!-- 以下改行してはいけない -->
-						<textarea placeholder="投稿内容:必須" type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
+						<textarea placeholder="投稿内容:(必須)" type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
 						<?php if ($error['message'] === 'blank') : ?>
 							<p class="error">*投稿内容を入力してください</p>
 						<?php endif; ?>
@@ -76,7 +76,8 @@ $posts = $PDO->query('SELECT * FROM posts');
 			<p><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?></p>
 			<p><?php print(htmlspecialchars($post['author_name'], ENT_QUOTES)); ?></p>
 			<p><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></p>
-			<a href="delete.php?id=<?php print(htmlspecialchars($post['id'])); ?>">削除</a>
+			<a href="delete.php?id=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>">削除</a>
+			<p><?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?></p>
 		<?php endforeach; ?>
 	</div>
 </body>
