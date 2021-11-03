@@ -57,34 +57,32 @@ $posts = $PDO->query('SELECT * FROM posts');
 		<hr>
 		<div class="form-block">
 			<form action="" method="post" enctype="multipart/form-data">
-				<dl>
-					<dd>
-						<p class="sub-title">投稿者ニックネーム:(必須)</p>
-						<input class="input-name" type="text" name="author_name" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
-						<?php if ($error['author_name'] === 'blank') : ?>
-							<p class="error">*投稿者氏名を入力してください</p>
-						<?php endif; ?>
-					</dd>
-					<dd>
-						<!-- 以下改行してはいけない -->
-						<p class="sub-title">投稿内容:(必須)</p>
-						<textarea type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
-						<?php if ($error['message'] === 'blank') : ?>
-							<p class="error">*投稿内容を入力してください</p>
-						<?php endif; ?>
-					</dd>
-				</dl>
-				<div><input class="submit-button" type="submit" value="入力内容を確認する" /></div>
+				<p class="sub-title">投稿者ニックネーム:(必須)</p>
+				<input class="input-name" type="text" name="author_name" maxlength="255" value="<?php print(htmlspecialchars($_POST['author_name'], ENT_QUOTES)); ?>" />
+				<?php if ($error['author_name'] === 'blank') : ?>
+					<p class="error">*投稿者氏名を入力してください</p>
+				<?php endif; ?>
+				<!-- 以下改行してはいけない -->
+				<p class="sub-title">投稿内容:(必須)</p>
+				<textarea type="text" name="message" rows="4" cols="40"><?php print(htmlspecialchars($_POST['message'], ENT_QUOTES)); ?></textarea>
+				<?php if ($error['message'] === 'blank') : ?>
+					<p class="error">*投稿内容を入力してください</p>
+				<?php endif; ?>
+				<div><input class="submit-button" type="submit" value="投稿する" /></div>
 			</form>
 		</div>
 	</div>
+	<hr>
 	<div class="list-block">
 		<?php foreach ($posts as $post) : ?>
-			<p><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?></p>
-			<p><?php print(htmlspecialchars($post['author_name'], ENT_QUOTES)); ?></p>
-			<p><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></p>
-			<a href="delete.php?id=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>">削除</a>
-			<p><?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?></p>
+			<div class="list-item">
+				<div class="list-title">
+					<p><?php print(htmlspecialchars($post['author_name'], ENT_QUOTES)); ?></p>
+					<p><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></p>
+					<a href="delete.php?id=<?php print(htmlspecialchars($post['id'], ENT_QUOTES)); ?>">削除</a>
+				</div>
+				<p class="list-content"><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?></p>
+			</div>
 		<?php endforeach; ?>
 	</div>
 </body>
