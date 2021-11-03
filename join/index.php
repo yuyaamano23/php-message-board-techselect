@@ -76,6 +76,7 @@ $posts = $PDO->query('SELECT * FROM posts');
 			<p><?php print(htmlspecialchars($post['message'], ENT_QUOTES)); ?></p>
 			<p><?php print(htmlspecialchars($post['author_name'], ENT_QUOTES)); ?></p>
 			<p><?php print(htmlspecialchars($post['created'], ENT_QUOTES)); ?></p>
+			<a href="delete.php?id=<?php print(htmlspecialchars($post['id'])); ?>">削除</a>
 		<?php endforeach; ?>
 	</div>
 </body>
