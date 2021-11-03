@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('./db_connect.php');
 
 if ($_POST['author_name'] === '') {
@@ -23,7 +24,8 @@ if ($_POST['author_name'] && $_POST['message']) {
 	$stmt->bindValue(':author_name', $author_name, PDO::PARAM_STR);
 	$stmt->bindValue(':message', $message, PDO::PARAM_STR);
 	$stmt->execute(); //挿入する値が入った変数をexecuteにセットしてSQLを実行
-	// 成功したら投稿が完了しましたを表示したい
+	// 成功したら投稿が完了しましたを表示リロードしても値が保持されるようにsessionを使った
+	$_SESSION['succes_message'] = '投稿が完了しました';
 
 	// 以下がないとリロード時に$_POSTの内容が残り、再度投稿してしまう
 	header("Location: index.php");
@@ -49,6 +51,9 @@ $posts = $PDO->query('SELECT * FROM posts');
 <body>
 	<div id="content">
 		<div class="form-block">
+			<?php if ($error['author_name'] !== 'blank') : ?>
+				<?php print(htmlspecialchars($_SESSION['succes_message'], ENT_QUOTES)); ?>
+			<?php endif; ?>
 			<h1>PHP掲示板</h1>
 			<hr>
 			<form action="" method="post" enctype="multipart/form-data">
