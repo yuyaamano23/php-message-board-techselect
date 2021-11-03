@@ -1,0 +1,35 @@
+body {
+	background-color: #eef3f4;
+}
+
+h1 {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+hr {
+	width: 90%;
+	margin: 0 auto;
+	height: 2px;
+	background-color: rgba(0, 0, 0, 0.212);
+	border:none
+}
+
+#id {
+	text-align: center;
+}
+
+.form-block {
+	text-align: center;
+	margin: 0 auto;
+	width: 85%;
+	border-radius: 5px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 3px;
+	background-color: #fff;
+}
+
+.error {
+	font-size: 90%;
+	color: #BB1850;
+}
